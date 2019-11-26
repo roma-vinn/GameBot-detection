@@ -4,6 +4,9 @@ __Mechanics and Mechanics faculty__ of __Taras Shevchenko National University of
 
 # Plan
 Our mentors provided us a simple game, in which were a player, coins, monsters and simple distractions (overlapping trees).
+
+![game](Visualization/image.png)
+
 For picking up coins you recieve gold and for killing monsters – experience. Our practice consisted of several points:
 - create a game bot to play this game,
 - collect data sets including both human and bot samples,
