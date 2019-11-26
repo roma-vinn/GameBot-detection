@@ -1,0 +1,36 @@
+Working with time window equals to 5000 ms...
+Score: 0.9875
+Confusion matrix:
+[[47  0]
+ [ 1 32]]
+
+Working with time window equals to 10000 ms...
+Score: 1.0
+Confusion matrix:
+[[17  0]
+ [ 0 23]]
+
+Working with time window equals to 15000 ms...
+Score: 1.0
+Confusion matrix:
+[[15  0]
+ [ 0 12]]
+
+Working with time window equals to 20000 ms...
+Score: 0.95
+Confusion matrix:
+[[ 9  1]
+ [ 0 10]]
+
+Working with time window equals to 25000 ms...
+Score: 1.0
+Confusion matrix:
+[[8 0]
+ [0 9]]
+
+Working with time window equals to 30000 ms...
+Score: 0.8571428571428571
+Confusion matrix:
+[[7 0]
+ [2 5]]
+

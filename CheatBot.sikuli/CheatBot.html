@@ -1,0 +1,405 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>CheatBot.sikuli</h2> <a href="CheatBot.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> math
+<span class="kw">import</span> random
+<span class="kw">import</span> time
+
+
+<span class="kw">class</span> Window:
+    <span class="str">""" class implementing the window (emulator) """</span>
+
+    <span class="kw">def</span> __init__(self):
+        <span class="str">"""
+        constructor
+        :param dot: top left window
+        :param h: window height
+        :param w: window width
+        """</span>
+
+        <span class="cmt"># r = Region("""get your image here""")</span>
+        r = Region(Region(<span class="dig">6</span>,<span class="dig">33</span>,<span class="dig">1264</span>,<span class="dig">615</span>))
+
+        self.dot = (r.x, r.y)
+        self.h = r.h
+        self.w = r.w
+        self.center = (self.dot[<span class="dig">0</span>] + int(r.w / <span class="dig">2</span>), self.dot[<span class="dig">1</span>] + int(r.h / <span class="dig">2</span>))
+
+        <span class="cmt"># angle between window diagonal and x axis</span>
+        self.angle = math.atan((self.dot[<span class="dig">0</span>] + self.w) / (self.dot[<span class="dig">1</span>] + self.h))
+        self.diagonal = math.sqrt((self.dot[<span class="dig">0</span>] + self.w) ** <span class="dig">2</span> + (self.dot[<span class="dig">1</span>] + self.h) ** <span class="dig">2</span>)
+
+
+<span class="kw">class</span> Runner:
+    <span class="str">""" character class """</span>
+
+    <span class="kw">def</span> __init__(self, window):
+        <span class="str">"""
+        constructor
+        :param window: emulator window
+        """</span>
+        self.start = (<span class="dig">0</span>, <span class="dig">0</span>)
+        self.current = (<span class="dig">0</span>, <span class="dig">0</span>)
+        self.window = window
+
+    <span class="kw">def</span> go(self, location, needGo=False):
+        <span class="str">"""
+        character move
+        :param location: destination coordinates
+        :return: None
+        """</span>
+        <span class="cmt"># doing a click</span>
+        <span class="kw">if</span> needGo:
+            <span class="skw">click</span>(Location(*location))
+
+        <span class="cmt"># changing current position</span>
+        x, y = location  <span class="cmt"># in absolute display coordinates</span>
+        <span class="cmt"># in emulator window coordinates</span>
+        tmp_x = x - self.window.dot[<span class="dig">0</span>]
+        tmp_y = y - self.window.dot[<span class="dig">1</span>]
+
+        <span class="cmt"># in character coordinates</span>
+        new_x = tmp_x - self.window.center[<span class="dig">0</span>]
+        new_y = tmp_y - self.window.center[<span class="dig">1</span>]
+
+        self.current = (new_x, new_y)
+
+
+    <span class="kw">def</span> _get_random_angle(self, deviation=<span class="dig">5</span>):
+        <span class="str">"""
+        :param deviation: deviation
+        :return: random angle
+        """</span>
+        <span class="kw">pass</span>
+
+    <span class="kw">def</span> _get_random_length(self):
+        <span class="str">"""
+        :return: random length
+        """</span>
+        max_len = self.window.diagonal // <span class="dig">2</span>
+        <span class="kw">return</span> rd.randrange(<span class="dig">5</span>, max_len - <span class="dig">10</span>)
+
+    <span class="kw">def</span> anotherWay(self):
+        <span class="str">"""
+        alternate move
+        used when there are no items or character in a dead end
+        :return: None
+        """</span>
+        z = Runner._get_random_length(self)  <span class="cmt"># diagonal</span>
+        len_x = z * math.cos(self.window.angle)
+        len_y = z * math.sin(self.window.angle)
+        new_x = abs(self.current[<span class="dig">0</span>] - len_x)
+        new_y = abs(self.current[<span class="dig">1</span>] - len_y)
+
+        <span class="cmt"># in emulator window</span>
+        x_for_click = new_x - self.window.center[<span class="dig">0</span>]
+        y_for_click = new_y - self.window.center[<span class="dig">1</span>]
+
+        <span class="cmt"># in absolute coordinates</span>
+        x_for_click -= self.window.dot[<span class="dig">0</span>]
+        y_for_click -= self.window.dot[<span class="dig">1</span>]
+
+        y_for_click = int(y_for_click) + start.getY()
+        x_for_click = int(x_for_click) + start.getX()
+
+        <span class="kw">print</span>(x_for_click, y_for_click)
+
+        self.go((x_for_click, y_for_click), True)
+
+
+<span class="kw">def</span> distance(x1, y1, x2, y2):
+    <span class="kw">return</span> math.sqrt((x1 - x2) ** <span class="dig">2</span> + (y1 - y2) ** <span class="dig">2</span>)
+
+
+BTC = Pattern(<img src="BTC.png" />).similar(<span class="dig">0.55</span>)
+
+DRAGON = Pattern(<img src="DRAGON.png" />).similar(<span class="dig">0.45</span>)
+STATIC = Pattern(<img src="1548265217666.png" />).similar(<span class="dig">0.60</span>)
+
+runner = Runner(Window())
+
+areaRadius = <span class="dig">200</span>
+fewTaps = [<span class="dig">1</span>, <span class="dig">2</span>, <span class="dig">3</span>, <span class="dig">4</span>]
+
+start = <span class="skw">find</span>(Pattern(<img src="1548262403849.png" />).similar(<span class="dig">0.50</span>))
+LastPos = (start.getX(), start.getY())
+
+DELAY_FACTOR = <span class="dig">450</span>
+
+SCREEN_RES_X = <span class="dig">1080</span>
+SCREEN_RES_Y = <span class="dig">2220</span>
+
+
+<span class="kw">def</span> GetMouseCoordinates():
+    getmouseLoc = Env.getMouseLocation()
+    x = getmouseLoc.getX()
+    y = getmouseLoc.getY()
+    <span class="kw">return</span> x, y
+
+
+<span class="kw">def</span> GetDelay(x, y):
+    hipotenuse = (math.sqrt(math.pow(x - (SCREEN_RES_X / <span class="dig">2</span>), <span class="dig">2</span>) + math.pow(y - (SCREEN_RES_Y / <span class="dig">2</span>), <span class="dig">2</span>)))
+    ReturnDelay = hipotenuse / DELAY_FACTOR
+    <span class="kw">if</span> (ReturnDelay &lt; <span class="dig">1</span>):
+        <span class="kw">return</span> <span class="dig">0</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> (ReturnDelay)
+
+
+<span class="kw">def</span> maxArea(points, curX, curY):
+    maxAreaObjects = list()
+    centerObject = None
+    minDist = <span class="dig">12345</span>
+
+    <span class="kw">for</span> c <span class="kw">in</span> points:
+        curAreaObjects = []
+        <span class="kw">for</span> p <span class="kw">in</span> points:
+            <span class="kw">if</span> distance(c[<span class="dig">0</span>], c[<span class="dig">1</span>], p[<span class="dig">0</span>], p[<span class="dig">1</span>]) &lt;= areaRadius:
+                curAreaObjects.append(p)
+
+        <span class="kw">if</span> len(maxAreaObjects) == len(curAreaObjects):
+            <span class="kw">if</span> distance(curX, curY, c[<span class="dig">0</span>], c[<span class="dig">1</span>]) &lt; minDist:
+                maxAreaObjects = curAreaObjects
+                centerObject = c
+                minDist = distance(curX, curY, c[<span class="dig">0</span>], c[<span class="dig">1</span>])
+        <span class="kw">if</span> len(maxAreaObjects) &lt; len(curAreaObjects):
+            maxAreaObjects = curAreaObjects
+            centerObject = c
+            minDist = distance(curX, curY, c[<span class="dig">0</span>], c[<span class="dig">1</span>])
+
+    <span class="kw">print</span>(<span class="str">'OBJECTS:'</span>, str(len(maxAreaObjects)))
+    <span class="kw">print</span>(maxAreaObjects)
+    <span class="kw">print</span>(minDist)
+    <span class="kw">return</span> maxAreaObjects, list(set(points) - set(maxAreaObjects))
+
+
+<span class="kw">def</span> visitArea(objects):
+    objects.sort(key=<span class="kw">lambda</span> x: distance(x[<span class="dig">0</span>], x[<span class="dig">1</span>], LastPos[<span class="dig">0</span>], LastPos[<span class="dig">1</span>]))
+
+    o = objects[-<span class="dig">1</span>]
+    <span class="kw">if</span> len(objects) &gt;= <span class="dig">3</span>:
+        walkAround(o[<span class="dig">0</span>], o[<span class="dig">1</span>])
+    <span class="kw">else</span>:
+        visitPoint(o[<span class="dig">0</span>], o[<span class="dig">1</span>])
+
+
+<span class="kw">def</span> current_way(x_b, y_b, x_e, y_e):
+    <span class="str">"""Limits the area of way from character to harvest item
+       in order to check collision with other harvest.
+    """</span>
+
+    <span class="kw">def</span> f(x, y):
+        <span class="kw">try</span>:
+            coef = <span class="dig">15</span>
+            <span class="kw">return</span> ((x - x_b) / (x_e - x_b) - (y - y_b) / (y_e - y_b) &lt; coef <span class="kw">and</span>
+                    (x - x_b) / (x_e - x_b) - (y - y_b) / (y_e - y_b) &gt; -coef <span class="kw">and</span>
+                    x &lt; abs(x_e) + <span class="dig">3</span> <span class="kw">and</span> y &lt; abs(y_e) + <span class="dig">3</span> <span class="kw">and</span>
+                    x &gt; abs(x_b) <span class="kw">and</span> y &gt; abs(y_b))
+        <span class="kw">except</span> ZeroDivisionError:
+            <span class="kw">return</span> None
+
+    <span class="kw">return</span> f
+
+
+<span class="kw">def</span> find_best_way(collisions, cluster, start):
+    <span class="str">"""Find way with contains the highest number of collectables
+    """</span>
+    max_count = <span class="dig">0</span>
+    max_element = None
+    <span class="kw">for</span> element <span class="kw">in</span> cluster:
+        check_fun = current_way(start.getX(), start.getY(), element[<span class="dig">0</span>], element[<span class="dig">1</span>])
+        <span class="kw">if</span> <span class="kw">not</span> check_fun:
+            <span class="kw">continue</span>
+        k = <span class="dig">1</span>
+        <span class="kw">for</span> n_element <span class="kw">in</span> collisions:
+            <span class="kw">if</span> check_fun(n_element[<span class="dig">0</span>], n_element[<span class="dig">1</span>]):
+                k += <span class="dig">1</span>
+        <span class="kw">if</span> k &gt; max_count:
+            max_count = k
+            max_element = n_element
+    <span class="kw">print</span>(<span class="str">'collected :'</span>, max_count)
+    <span class="kw">return</span> max_element
+
+
+<span class="kw">def</span> walkAround(x, y):
+    <span class="str">''' Walk around area like on romb edges '''</span>
+
+    dx = [random.randint(<span class="dig">2</span>, <span class="dig">4</span>), <span class="dig">0</span>, -random.randint(<span class="dig">2</span>, <span class="dig">4</span>), <span class="dig">0</span>]
+    dy = [<span class="dig">0</span>, random.randint(<span class="dig">2</span>, <span class="dig">4</span>), <span class="dig">0</span>, -random.randint(<span class="dig">2</span>, <span class="dig">4</span>)]
+
+    <span class="kw">for</span> i <span class="kw">in</span> range(len(dx)):
+        nx, ny = x + dx[i], y + dy[i]
+        <span class="skw">click</span>(Location(nx, ny))
+        time.<span class="skw">sleep</span>(random.randint(<span class="dig">200</span>, <span class="dig">400</span>) / <span class="dig">1000</span>)
+
+
+<span class="kw">def</span> vector_transform(x_b, y_b, x_e, y_e, coef):
+    <span class="kw">return</span> x_b + coef * (x_e - x_b), y_b + coef * (y_e - y_b)
+
+
+<span class="kw">def</span> visitPoint(x, y):
+
+    <span class="cmt"># random number of taps</span>
+    Taps = random.choice(fewTaps)
+
+    <span class="cmt"># random choice</span>
+    before = random.choice(True, False)
+
+    <span class="cmt"># if the harvest is too close – make one tap    </span>
+    <span class="kw">if</span> distance(start.getX(), start.getY(), x, y) &lt; <span class="dig">100</span>:
+        before = False
+        Taps = <span class="dig">1</span>
+
+    coef = <span class="dig">0.7</span> <span class="kw">if</span> before <span class="kw">else</span> <span class="dig">1.3</span>
+
+    <span class="kw">for</span> i <span class="kw">in</span> range(Taps):
+        nx, ny = vector_transform(start.getX(), start.getY(), x, y, coef)
+        <span class="kw">print</span>(<span class="str">'Check point:'</span>)
+        <span class="kw">print</span>(start.getX(), start.getY())
+        <span class="kw">print</span>(x, y)
+        <span class="kw">print</span>(coef)
+        <span class="kw">print</span>(nx, ny)
+        <span class="cmt"># raise Exception</span>
+        <span class="skw">click</span>(Location(nx, ny))
+        runner.go((nx, ny))
+        coef -= <span class="dig">0.1</span> <span class="kw">if</span> before <span class="kw">else</span> <span class="dig">0.3</span>
+
+        <span class="cmt"># time.sleep(random.randint(200, 400) / 1000)</span>
+        <span class="skw">wait</span>(GetDelay(nx, ny))
+
+    LastPos = start.getX(), start.getY()
+
+
+<span class="kw">def</span> checkObjects():
+    <span class="kw">return</span> exists(BTC) <span class="kw">or</span> exists(DRAGON)
+
+
+<span class="kw">def</span> walkSomewhere():
+    <span class="str">"""Run in a random way on a random distance."""</span>
+    center_x = runner.window.center[<span class="dig">1</span>]
+    center_y = runner.window.center[<span class="dig">0</span>]
+    <span class="cmt">#center_x = SCREEN_RES_X // 2</span>
+    <span class="cmt">#center_y = SCREEN_RES_Y // 2</span>
+    <span class="cmt">#print('center_x', center_x)</span>
+    <span class="cmt">#print('center_y', center_y)</span>
+    diag = runner.window.diagonal
+    <span class="cmt">#print('diag', diag) </span>
+
+    <span class="cmt"># random distance</span>
+    radius = diag // <span class="dig">7</span>
+    radius += (random.random() - <span class="dig">0.5</span>) * radius
+    <span class="cmt">#print('radius', radius)</span>
+
+    <span class="cmt"># random way</span>
+    degree = random.random() * <span class="dig">2</span> * math.pi
+    <span class="cmt">#print('degree', degree)</span>
+    sin_tmp = math.sin(degree)
+    cos_tmp = math.cos(degree)
+    new_x = center_x + cos_tmp * radius <span class="cmt">#* sign(cos_tmp)</span>
+    new_y = center_y + sin_tmp * radius <span class="cmt">#* sign(sin_tmp)</span>
+    <span class="cmt">#print('sin', sin_tmp)</span>
+    <span class="cmt">#print('cos', cos_tmp)</span>
+
+    <span class="skw">click</span>(Location(new_x, new_y))
+
+    delay = GetDelay(new_x, new_y)
+    <span class="skw">wait</span>(delay)
+    <span class="cmt">#print(delay)</span>
+
+
+<span class="cmt"># while exists(STATIC):</span>
+<span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">50</span>):
+
+    points = list()
+    <span class="kw">try</span>:
+        <span class="kw">for</span> p <span class="kw">in</span> findAll(BTC):
+            points.append((p.getX(), p.getY()))
+    <span class="kw">except</span>:
+        <span class="kw">pass</span>
+    <span class="kw">try</span>:
+        <span class="kw">for</span> p <span class="kw">in</span> findAll(DRAGON):
+            points.append((p.getX(), p.getY()))
+    <span class="kw">except</span>:
+        <span class="kw">pass</span>
+
+    <span class="kw">if</span> len(points) != <span class="dig">0</span>:
+        MA, Other = maxArea(points, LastPos[<span class="dig">0</span>], LastPos[<span class="dig">1</span>])
+        toGo = find_best_way(MA, Other, start)
+        <span class="kw">if</span> toGo:
+            visitPoint(toGo[<span class="dig">0</span>], toGo[<span class="dig">1</span>])
+        <span class="kw">else</span>:
+            visitArea(MA)
+    <span class="kw">else</span>:
+        walkSomewhere()
+</pre>
+</body>
+</html>

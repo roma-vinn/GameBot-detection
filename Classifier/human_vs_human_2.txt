@@ -1,0 +1,30 @@
+Score: 0.8260869565217391
+Confusion matrix:
+[[11  7]
+ [ 1 27]]
+
+Score: 0.8695652173913043
+Confusion matrix:
+[[ 4  1]
+ [ 2 16]]
+
+Score: 1.0
+Confusion matrix:
+[[ 3  0]
+ [ 0 13]]
+
+Score: 1.0
+Confusion matrix:
+[[3 0]
+ [0 9]]
+
+Score: 1.0
+Confusion matrix:
+[[1 0]
+ [0 9]]
+
+Score: 1.0
+Confusion matrix:
+[[2 0]
+ [0 6]]
+

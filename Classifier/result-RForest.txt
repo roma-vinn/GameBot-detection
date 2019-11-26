@@ -1,0 +1,30 @@
+[5000 ms] Data was parsing 27.33 seconds
+Score: 0.8766519823788547
+Confusion matrix:
+ [[110  12]
+ [ 16  89]]
+[10000 ms] Data was parsing 11.75 seconds
+Score: 0.9217391304347826
+Confusion matrix:
+ [[52  4]
+ [ 5 54]]
+[15000 ms] Data was parsing 8.53 seconds
+Score: 0.8701298701298701
+Confusion matrix:
+ [[32  1]
+ [ 9 35]]
+[20000 ms] Data was parsing 6.96 seconds
+Score: 0.9482758620689655
+Confusion matrix:
+ [[18  3]
+ [ 0 37]]
+[25000 ms] Data was parsing 6.03 seconds
+Score: 0.9787234042553191
+Confusion matrix:
+ [[26  1]
+ [ 0 20]]
+[30000 ms] Data was parsing 5.39 seconds
+Score: 0.9230769230769231
+Confusion matrix:
+ [[13  1]
+ [ 2 23]]

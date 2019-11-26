@@ -1,0 +1,107 @@
+# result-Vote.txt
+
+[5000 ms] Data was parsing 22.46 seconds
+Score: 0.9030837004405287
+Confusion matrix:
+[[109   9]
+ [ 13  96]]
+
+[10000 ms] Data was parsing 11.86 seconds
+Score: 0.8260869565217391
+Confusion matrix:
+[[50  4]
+ [16 45]]
+
+[15000 ms] Data was parsing 8.54 seconds
+Score: 0.8051948051948052
+Confusion matrix:
+[[29  8]
+ [ 7 33]]
+
+[20000 ms] Data was parsing 7.08 seconds
+Score: 0.9137931034482759
+Confusion matrix:
+[[23  2]
+ [ 3 30]]
+
+[25000 ms] Data was parsing 6.0 seconds
+Score: 0.8297872340425532
+Confusion matrix:
+[[16  4]
+ [ 4 23]]
+
+[30000 ms] Data was parsing 5.43 seconds
+Score: 0.8974358974358975
+Confusion matrix:
+[[18  2]
+ [ 2 17]]
+
+# human_vs_human_2.txt
+
+Score: 0.9347826086956522
+Confusion matrix:
+[[15  1]
+ [ 2 28]]
+
+Score: 0.9130434782608695
+Confusion matrix:
+[[ 9  2]
+ [ 0 12]]
+
+Score: 1.0
+Confusion matrix:
+[[ 4  0]
+ [ 0 12]]
+
+Score: 1.0
+Confusion matrix:
+[[ 2  0]
+ [ 0 10]]
+
+Score: 1.0
+Confusion matrix:
+[[6 0]
+ [0 4]]
+
+Score: 1.0
+Confusion matrix:
+[[4 0]
+ [0 4]]
+
+# human_vs_human_3.txt
+
+Score: 0.6973684210526315
+Confusion matrix:
+[[11  1  4]
+ [ 2 16 10]
+ [ 3  3 26]]
+
+Score: 0.6666666666666666
+Confusion matrix:
+[[ 7  2  1]
+ [ 2  9  6]
+ [ 2  0 10]]
+
+Score: 0.8076923076923077
+Confusion matrix:
+[[6 0 0]
+ [0 9 0]
+ [0 5 6]]
+
+Score: 0.85
+Confusion matrix:
+[[7 1 0]
+ [0 4 2]
+ [0 0 6]]
+
+Score: 1.0
+Confusion matrix:
+[[2 0 0]
+ [0 8 0]
+ [0 0 6]]
+
+Score: 0.7692307692307693
+Confusion matrix:
+[[1 0 2]
+ [0 5 1]
+ [0 0 4]]
